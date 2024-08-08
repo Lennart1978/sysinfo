@@ -15,7 +15,7 @@
 #define MB      (KB * KB)
 #define GB      (MB * KB)
 #define MINUTE  60
-#define HOUR    (MINUTE * MINUTE)
+#define HOUR    (MINUTE * 60)
 #define DAY     (HOUR * 24)
 #define BLUE    "\x1b[34m"
 #define RESET   "\x1b[0m"
@@ -23,7 +23,6 @@
 #define GREEN   "\x1b[32m"
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
-
 
 void printSystemInfo() {
     char hostname[256];
@@ -68,7 +67,7 @@ void printSystemInfo() {
     }
 
     // Desktop Environment
-    char *desktopEnv = getenv("XDG_CURRENT_DESKTOP"); 
+    char *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
     if (desktopEnv != NULL) {
         printf(BOLD CYAN "Desktop Environment" RESET ":%s\n", desktopEnv);
     } else {
@@ -146,18 +145,21 @@ int main() {
 
     printSystemInfo();
 
-    (sysinfo(&info) != 0) ? (perror("sysinfo"), 1) : 0;
+    if (sysinfo(&info) != 0) {
+        perror("sysinfo");
+        return 1;
+    }
     
     char *uptime = get_uptime(info.uptime);
 
     printf(BOLD CYAN "Uptime"RESET":%s\n", uptime);
-    printf(BOLD CYAN "Total RAM"RESET":%.2f GiB\n", (double)info.totalram / GB);
-    printf(BOLD CYAN "Free RAM"RESET":%.2f GiB\n", (double)(info.freeram / GB));
-    printf(BOLD CYAN "Shared RAM"RESET":%.2f GiB\n", (double)info.sharedram / GB);
-    printf(BOLD CYAN "Buffered RAM"RESET":%.2f GiB\n", (double)info.bufferram / GB);
-    printf(BOLD CYAN "Total Swap"RESET":%.2f GiB\n", (double)info.totalswap / GB);
-    printf(BOLD CYAN "Free Swap"RESET":%.2f GiB\n", (double)info.freeswap / GB);
-    printf(BOLD CYAN "Number of processes:"RESET"%d\n", info.procs);    
+    printf(BOLD CYAN "Total RAM"RESET":%.2f GB\n", (double)info.totalram / GB);
+    printf(BOLD CYAN "Free RAM"RESET":%.2f GB\n", (double)(info.freeram + info.bufferram + info.sharedram) / GB);
+    printf(BOLD CYAN "Buffered RAM"RESET":%.2f GB\n", (double)info.bufferram / GB);
+    printf(BOLD CYAN "Shared RAM"RESET":%.2f GB\n", (double)info.sharedram / GB);
+    printf(BOLD CYAN "Total Swap"RESET":%.2f GB\n", (double)info.totalswap / GB);
+    printf(BOLD CYAN "Free Swap"RESET":%.2f GB\n", (double)info.freeswap / GB);
+    printf(BOLD CYAN "Number of processes:"RESET"%ld\n", info.procs);     
 
     free(uptime);
 
