@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+// adjust the size if needed !
 #define MAX_SIZE 1048576 // 1 MB
 
 void escape_string(char *src, char *dest) {
