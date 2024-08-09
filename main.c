@@ -24,6 +24,7 @@
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
 
+// I only implemented Gnome DE because I use it, but you can add more if you want.
 char* get_gnome_version()
 {
     char *buffer = malloc(100);
@@ -178,6 +179,7 @@ char* get_system_info() {
     return systeminfo;
 }
 
+// Function to center text
 char* center(const char *text) {
     char *result = NULL;
     char *line, *saveptr;
@@ -233,6 +235,7 @@ char* center(const char *text) {
     return result;
 }
 
+//  Function to get uptime in a human-readable format
 char* get_uptime(long uptime_seconds)
 {
     char* uptime_str = malloc(100);
@@ -260,7 +263,8 @@ char* get_uptime(long uptime_seconds)
 
 int main() {
     struct sysinfo info;
-    
+
+    // This is all to print the ASCII art
     printf("%s", ansi_pic);
 
     if (sysinfo(&info) != 0) {
@@ -307,6 +311,7 @@ int main() {
 
     printf("%s\n", centered_text);
 
+    // Don't forget to free the allocated memory !
     free(centered_text);
     free(all_text);
     free(system_text);
