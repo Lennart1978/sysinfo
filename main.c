@@ -132,7 +132,8 @@ char* get_system_info() {
 
     char *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
     if (desktopEnv != NULL) {
-        snprintf(desktop_env, sizeof(desktop_env) + sizeof(gnome_version), "%s %s", desktopEnv, gnome_version);        
+        // Only Gnome until now. You can implement KDE, XFCE ... version here with a function like get_gnome_version()
+        snprintf(desktop_env, sizeof(desktop_env) + sizeof(gnome_version), "%s %s", desktopEnv, gnome_version);
     } else {
         strcpy(desktop_env, "Unknown");
     }    
