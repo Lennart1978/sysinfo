@@ -51,9 +51,15 @@ char* get_gnome_version()
         free(buffer);
         return NULL;
     }
-    buffer += 12; // Remove the "gnome-shell " prefix
+    // Skip "GNOME Shell", only get the version number
+    const char *delim = " ";
+    char *token = strtok(buffer, delim);
+    token = strtok(NULL, delim);
+    token = strtok(NULL, delim);
+    strcpy(buffer, token);
+
     buffer[strlen(buffer)] = '\0';    
-    
+
     pclose(pipe);
     return buffer;
 }
@@ -118,8 +124,7 @@ char* get_system_info() {
     char *gnome_version = get_gnome_version();
     if(gnome_version == NULL)
     {
-        fprintf(stderr, "Failed to get gnome version\n");
-        gnome_version -=12; // Set pointer back !
+        fprintf(stderr, "Failed to get gnome version\n");     
         free(gnome_version);
         free(systeminfo);
         return NULL;
@@ -130,8 +135,7 @@ char* get_system_info() {
         snprintf(desktop_env, sizeof(desktop_env) + sizeof(gnome_version), "%s %s", desktopEnv, gnome_version);        
     } else {
         strcpy(desktop_env, "Unknown");
-    }
-    gnome_version -= 12; // Set pointer back !
+    }    
     free(gnome_version);
 
     // CPU
