@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (bytes_read == sizeof(buffer)) {
-        fprintf(stderr, "Warning: The entire file may not have been read\n");
+        fprintf(stderr, "Warning: The entire file may not have been read\nIncrease buffer size for bigger image file(>1MB)\n");
     }
 
     buffer[bytes_read] = '\0';
