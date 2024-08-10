@@ -24,22 +24,55 @@
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
 
-// I only implemented Gnome DE because I use it, but you can add more if you want.
-char* get_gnome_version()
+char desktop_environment[256];
+
+// I only implemented GNOME, KDE and XFCE until now and I only tested GNOME, because I use it.
+enum Desktop
+{
+    GNOME,
+    KDE,
+    XFCE
+};
+
+enum Desktop desktop;
+
+char* get_de_version(enum Desktop de)
 {
     char *buffer = malloc(100);
+    FILE *pipe = NULL;
     if(buffer == NULL)
     {
         fprintf(stderr, "Failed to allocate memory for buffer\n");
         return NULL;
     }
+    switch(de)
+    {
+        case GNOME:
+        pipe = popen("gnome-shell --version", "r");
+        if (!pipe) {
+            fprintf(stderr, "Failed to run gnome-shell command\n");        
+            return NULL;
+        }
+        break;
 
-    FILE* pipe = popen("gnome-shell --version", "r");
-    if (!pipe) {
-        fprintf(stderr, "Failed to run gnome-shell command\n");        
-        return NULL;
-    }    
+        case KDE:
+        pipe = popen("plasmashell --version", "r");
+        if (!pipe) {
+            fprintf(stderr, "Failed to run plasmashell command\n");        
+            return NULL;
+        }
+        break;        
 
+        case XFCE:
+        pipe = popen("xfce4-session --version", "r");
+        if (!pipe) {
+            fprintf(stderr, "Failed to run xfce4-session command\n");        
+            return NULL;
+        }
+        
+        default:
+        break;  
+    }
     
     if (fgets(buffer, 100, pipe) != NULL) {
         size_t len = strlen(buffer);
@@ -51,14 +84,35 @@ char* get_gnome_version()
         free(buffer);
         return NULL;
     }
-    // Skip "GNOME Shell", only get the version number
     const char *delim = " ";
-    char *token = strtok(buffer, delim);
-    token = strtok(NULL, delim);
-    token = strtok(NULL, delim);
-    strcpy(buffer, token);
+    char *token;
+    switch(de)
+    {
+        case GNOME: // Skip "GNOME Shell"
+        token = strtok(buffer, delim);
+        token = strtok(NULL, delim);
+        token = strtok(NULL, delim);
+        strcpy(buffer, token);
+        buffer[strlen(buffer)] = '\0';
+        break;
 
-    buffer[strlen(buffer)] = '\0';    
+        case KDE: // Skip "plasmashell" - I am not shure about this !!!
+        token = strtok(buffer, delim);
+        token = strtok(NULL, delim);
+        strcpy(buffer, token);
+        buffer[strlen(buffer)] = '\0';
+        break;
+
+        case XFCE: // Skip "xfce4-session" - I am not shure abou this !!!
+        token = strtok(buffer, delim);
+        token = strtok(NULL, delim);        
+        strcpy(buffer, token);
+        buffer[strlen(buffer)] = '\0'; 
+        break;
+
+        default:
+        break;
+    }
 
     pclose(pipe);
     return buffer;
@@ -120,24 +174,46 @@ char* get_system_info() {
         strcpy(os, "Unknown");
     }
 
-    // Desktop Environment
-    char *gnome_version = get_gnome_version();
-    if(gnome_version == NULL)
+    // Desktop Environment: I only implemented GNOME, KDE and XFCE until now...
+    char *DE = getenv("XDG_CURRENT_DESKTOP");
+    char *de_version = malloc(100);
+    if(de_version == NULL)
     {
-        fprintf(stderr, "Failed to get gnome version\n");     
-        free(gnome_version);
+        fprintf(stderr, "Failed to allocate memory for 'de_version'\n");
         free(systeminfo);
-        return NULL;
+    }
+    if(strcmp(DE, "GNOME") == 0)
+    {
+        de_version = get_de_version(GNOME);
+    }
+    else if(strcmp(DE, "KDE") == 0)
+    {
+        de_version = get_de_version(KDE);
+    }
+    else if(strcmp(DE, "XFCE") == 0)
+    {
+        de_version = get_de_version(XFCE);
+    }
+    else
+    {
+        de_version = "unknown";
     }
 
-    char *desktopEnv = getenv("XDG_CURRENT_DESKTOP");
-    if (desktopEnv != NULL) {
-        // Only Gnome until now. You can implement KDE, XFCE ... version here with a function like get_gnome_version()
-        snprintf(desktop_env, sizeof(desktop_env) + sizeof(gnome_version), "%s %s", desktopEnv, gnome_version);
+    if(de_version == NULL)
+    {
+        fprintf(stderr, "Failed to get desktop environment version or unknown d.e.\n");
+        free(de_version);
+        free(systeminfo);
+    }
+    
+   
+    strcpy(desktop_env, DE);
+    if (desktop_env != NULL) {
+        snprintf(desktop_environment, sizeof(desktop_env) + sizeof(de_version), "%s %s", desktop_env, de_version);
     } else {
-        strcpy(desktop_env, "Unknown");
+        strcpy(desktop_environment, "Unknown");
     }    
-    free(gnome_version);
+    free(de_version);
 
     // CPU
     FILE *cpuInfo = fopen("/proc/cpuinfo", "r");
@@ -179,7 +255,7 @@ char* get_system_info() {
     // Combine all the information into a single string
     snprintf(systeminfo, 4096, BOLD CYAN "Hostname:"RESET" %s\n"BOLD CYAN "Kernel:"RESET" %s\n"BOLD CYAN"OS:"
             RESET" %s\n"BOLD CYAN"Desktop Environment:"RESET" %s\n"BOLD CYAN"CPU:"RESET" %s\n"BOLD CYAN"Local IP:"RESET" %s\n",
-             hostname, kernel, os, desktop_env, CPU, local_IP);
+             hostname, kernel, os, desktop_environment, CPU, local_IP);
        
     return systeminfo;
 }
