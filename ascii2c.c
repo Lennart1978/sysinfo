@@ -26,13 +26,13 @@ void escape_string(char *src, char *dest) {
 
 int main(int argc, char *argv[]) {
     if (argc != 3) {
-        fprintf(stderr, "Verwendung: %s <eingabe.ansi> <ausgabe.c>\n", argv[0]);
+        fprintf(stderr, "Usage: %s <ascii-text> <destination.c>\n", argv[0]);
         return 1;
     }
 
     FILE *input_file = fopen(argv[1], "r");
     if (!input_file) {
-        perror("Fehler beim Öffnen der Eingabedatei");
+        perror("Error opening source ASCII text file");
         return 1;
     }
 
@@ -41,12 +41,12 @@ int main(int argc, char *argv[]) {
     fclose(input_file);
 
     if (bytes_read == 0) {
-        fprintf(stderr, "Fehler beim Lesen der Eingabedatei oder Datei ist leer\n");
+        fprintf(stderr, "Error reading source or file is empty\n");
         return 1;
     }
 
     if (bytes_read == sizeof(buffer)) {
-        fprintf(stderr, "Warnung: Möglicherweise wurde nicht die gesamte Datei gelesen\n");
+        fprintf(stderr, "Warning: The entire file may not have been read\n");
     }
 
     buffer[bytes_read] = '\0';
@@ -56,14 +56,14 @@ int main(int argc, char *argv[]) {
 
     FILE *output_file = fopen(argv[2], "w");
     if (!output_file) {
-        perror("Fehler beim Öffnen der Ausgabedatei");
+        perror("Error opening destination file");
         return 1;
     }
 
     fprintf(output_file, "const char *ansi_pic = \"%s\";\n", escaped_buffer);
     fclose(output_file);
 
-    printf("Konvertierung abgeschlossen. Ausgabe in %s geschrieben.\n", argv[2]);
+    printf("Conversion completed. Output written in %s.\n", argv[2]);
 
     return 0;
 }
