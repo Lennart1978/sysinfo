@@ -80,7 +80,7 @@ char* get_de_version(enum Desktop de)
             buffer[len - 1] = '\0';
         }
     } else {
-        fprintf(stderr, "Failed to read gnome-shell version\n");
+        fprintf(stderr, "Failed to read desktop environment version\n");
         free(buffer);
         return NULL;
     }
