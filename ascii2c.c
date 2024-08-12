@@ -96,7 +96,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
     
-    // Escape the buffer and write the escaped string to the destination file
+    // Escape the buffer and write the escaped string to 'escaped_buffer'
     escape_string(buffer, escaped_buffer, file_size * 2 + 1);
 
     //  Open the destination file for writing
@@ -109,7 +109,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // Write the escaped string to the destination file and save it in a string
+    // Check how many bytes are needed to write the escaped string to the destination file.
     int write_result = snprintf(NULL, 0, "const char *ansi_pic = \"%s\";\n", escaped_buffer);
     if (write_result > 0) {
         // Allocate memory for the output string. Add 1 for the null terminator.
