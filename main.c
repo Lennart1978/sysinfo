@@ -24,7 +24,7 @@
 #define CYAN    "\x1b[36m"
 #define BOLD    "\x1b[1m"
 
-char desktop_environment[256];
+char desktop_environment[100];
 
 // I only implemented GNOME, KDE and XFCE until now and I only tested GNOME, because I use it.
 enum Desktop
@@ -50,7 +50,7 @@ char* get_de_version(enum Desktop de)
         case GNOME:
         pipe = popen("gnome-shell --version", "r");
         if (!pipe) {
-            fprintf(stderr, "Failed to run gnome-shell command\n");        
+            fprintf(stderr, "Failed to run gnome-shell command\n");
             return NULL;
         }
         break;
@@ -58,22 +58,22 @@ char* get_de_version(enum Desktop de)
         case KDE:
         pipe = popen("plasmashell --version", "r");
         if (!pipe) {
-            fprintf(stderr, "Failed to run plasmashell command\n");        
+            fprintf(stderr, "Failed to run plasmashell command\n");
             return NULL;
         }
-        break;        
+        break;
 
         case XFCE:
         pipe = popen("xfce4-session --version", "r");
         if (!pipe) {
-            fprintf(stderr, "Failed to run xfce4-session command\n");        
+            fprintf(stderr, "Failed to run xfce4-session command\n");
             return NULL;
         }
-        
+
         default:
-        break;  
+        break;
     }
-    
+
     if (fgets(buffer, 100, pipe) != NULL) {
         size_t len = strlen(buffer);
         if (len > 0 && buffer[len - 1] == '\n') {
@@ -105,9 +105,9 @@ char* get_de_version(enum Desktop de)
 
         case XFCE: // Skip "xfce4-session" - I am not shure abou this !!!
         token = strtok(buffer, delim);
-        token = strtok(NULL, delim);        
+        token = strtok(NULL, delim);
         strcpy(buffer, token);
-        buffer[strlen(buffer)] = '\0'; 
+        buffer[strlen(buffer)] = '\0';
         break;
 
         default:
@@ -119,7 +119,7 @@ char* get_de_version(enum Desktop de)
 }
 
 char* get_system_info() {
-    char *systeminfo = malloc(4096);
+    char *systeminfo = malloc(100);
     if (systeminfo == NULL) {
         perror("malloc");
         return NULL;
@@ -176,7 +176,7 @@ char* get_system_info() {
 
     // Desktop Environment: I only implemented GNOME, KDE and XFCE until now...
     char *DE = getenv("XDG_CURRENT_DESKTOP");
-    char *de_version = malloc(100);
+    char *de_version = malloc(sizeof(float));
     if(de_version == NULL)
     {
         fprintf(stderr, "Failed to allocate memory for 'de_version'\n");
@@ -205,14 +205,15 @@ char* get_system_info() {
         free(de_version);
         free(systeminfo);
     }
-    
-   
+
+
     strcpy(desktop_env, DE);
-    if (desktop_env != NULL) {
-        snprintf(desktop_environment, sizeof(desktop_env) + sizeof(de_version), "%s %s", desktop_env, de_version);
+    if (strlen(desktop_env) > 1) {
+        snprintf(desktop_environment, 100, "%s %s", desktop_env, de_version);
+        desktop_env[(int)(strlen(desktop_env)) - 1] = '\0';
     } else {
         strcpy(desktop_environment, "Unknown");
-    }    
+    }
     free(de_version);
 
     // CPU
@@ -242,7 +243,7 @@ char* get_system_info() {
             if (ifa->ifa_addr == NULL)
                 continue;
             if (ifa->ifa_addr->sa_family == AF_INET && strcmp(ifa->ifa_name, "lo") != 0) {
-                snprintf(local_IP, sizeof(local_IP), "%s", inet_ntoa(((struct sockaddr_in *)ifa->ifa_addr)->sin_addr));                
+                snprintf(local_IP, sizeof(local_IP), "%s", inet_ntoa(((struct sockaddr_in *)ifa->ifa_addr)->sin_addr));
                 break;
             }
         }
@@ -256,7 +257,7 @@ char* get_system_info() {
     snprintf(systeminfo, 4096, BOLD CYAN "Hostname:"RESET" %s\n"BOLD CYAN "Kernel:"RESET" %s\n"BOLD CYAN"OS:"
             RESET" %s\n"BOLD CYAN"Desktop Environment:"RESET" %s\n"BOLD CYAN"CPU:"RESET" %s\n"BOLD CYAN"Local IP:"RESET" %s\n",
              hostname, kernel, os, desktop_environment, CPU, local_IP);
-       
+
     return systeminfo;
 }
 
@@ -275,7 +276,7 @@ char* center(const char *text) {
         if (len > max_line_length) {
             max_line_length = len;
         }
-        total_length += len + 1; 
+        total_length += len + 1;
         line_count++;
         line = strtok_r(NULL, "\n", &saveptr);
     }
@@ -288,7 +289,7 @@ char* center(const char *text) {
 
     char *output = result;
     const char *input_ptr = text;
-    while (*input_ptr) { 
+    while (*input_ptr) {
         if (*input_ptr == '\n' && (input_ptr == text || *(input_ptr - 1) == '\n')) {
             *output++ = '\n';
             input_ptr++;
@@ -320,8 +321,11 @@ char* center(const char *text) {
 char* get_uptime(long uptime_seconds)
 {
     char* uptime_str = malloc(100);
-    uptime_str == NULL ? NULL : 0;
-    
+    if(!uptime_str)
+    {
+        fprintf(stderr, "Can't allocate memory for uptime_str.\n");
+    }
+
     if (uptime_seconds > DAY)
     {
         sprintf(uptime_str, "%.2f days", (double)uptime_seconds / DAY);
@@ -338,7 +342,7 @@ char* get_uptime(long uptime_seconds)
     {
         sprintf(uptime_str, "%ld s", uptime_seconds);
     }
-    
+
     return uptime_str;
 }
 
@@ -352,7 +356,7 @@ int main() {
         perror("sysinfo");
         return 1;
     }
-    
+
     char *uptime = get_uptime(info.uptime);
     if (uptime == NULL) {
         fprintf(stderr, "Failed to get uptime\n");
@@ -373,15 +377,15 @@ int main() {
         free(system_text);
         return 1;
     }
-    
+
 
     snprintf(all_text, 8192, "%s"BOLD CYAN"Uptime"RESET":%s\n"BOLD CYAN"Total RAM"RESET":%.2f GB\n"BOLD CYAN"Free RAM"RESET":%.2f GB\n"
             BOLD CYAN "Buffered RAM"RESET":%.2f GB\n"BOLD CYAN"Shared RAM"RESET":%.2f GB\n"BOLD CYAN"Total Swap"RESET":%.2f GB\n"BOLD CYAN
-            "Free Swap"RESET":%.2f GB\n"BOLD CYAN"Number of processes:"RESET"%ld\n", system_text, uptime, (double)info.totalram / GB,
+            "Free Swap"RESET":%.2f GB\n"BOLD CYAN"Number of processes:"RESET"%d\n", system_text, uptime, (double)info.totalram / GB,
             (double)(info.freeram + info.bufferram + info.sharedram) / GB, (double)info.bufferram / GB, (double)info.sharedram / GB,
             (double)info.totalswap / GB, (double)info.freeswap / GB, info.procs);
 
-    char* centered_text = center(all_text);    
+    char* centered_text = center(all_text);
     if (centered_text == NULL) {
         fprintf(stderr, "Failed to center text\n");
         free(all_text);
