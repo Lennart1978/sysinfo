@@ -1,8 +1,8 @@
 #include "sysinfo.h"
 
-extern enum Desktop desktop;
+enum Desktop desktop;
 
-extern char desktop_environment[100];
+char desktop_environment[100];
 
 char *get_de_version(enum Desktop de)
 {
