@@ -1,16 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-
 /**
  * Escapes special characters in a string by replacing them with their escaped counterparts.
- * 
+ *
  * This function takes a source string and a destination buffer, and escapes any occurrences of newline ('\n'),
  * double quote ('"'), and backslash ('\\') characters in the source string. The escaped string is written to
  * the destination buffer, which must be large enough to hold the escaped string (at most twice the length of
  * the source string).
- * 
+ *
  * @param src The source string to be escaped.
  * @param dest The destination buffer to write the escaped string to.
  * @param dest_size The size of the destination buffer, in bytes.
@@ -82,7 +80,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "Error reading source or file is empty\n");
         free(buffer);
         return 1;
-    }    
+    }
 
     // Null-terminate the buffer
     buffer[bytes_read] = '\0';
@@ -95,7 +93,7 @@ int main(int argc, char *argv[]) {
         free(buffer);
         return 1;
     }
-    
+
     // Escape the buffer and write the escaped string to 'escaped_buffer'
     escape_string(buffer, escaped_buffer, file_size * 2 + 1);
 
