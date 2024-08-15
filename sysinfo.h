@@ -10,18 +10,18 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#define KB      1024
-#define MB      (KB * KB)
-#define GB      (MB * KB)
-#define MINUTE  60
-#define HOUR    (MINUTE * 60)
-#define DAY     (HOUR * 24)
-#define BLUE    "\x1b[34m"
-#define RESET   "\x1b[0m"
-#define RED     "\x1b[31m"
-#define GREEN   "\x1b[32m"
-#define CYAN    "\x1b[36m"
-#define BOLD    "\x1b[1m"
+#define KB 1024
+#define MB (KB * KB)
+#define GB (MB * KB)
+#define MINUTE 60
+#define HOUR (MINUTE * 60)
+#define DAY (HOUR * 24)
+#define BLUE "\x1b[34m"
+#define RESET "\x1b[0m"
+#define RED "\x1b[31m"
+#define GREEN "\x1b[32m"
+#define CYAN "\x1b[36m"
+#define BOLD "\x1b[1m"
 
 enum Desktop
 {
