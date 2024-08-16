@@ -3,6 +3,10 @@ My personal smal system info CLI app written in C
 
 <img src="sysinfo.png" alt="screenshot"></img>
 
+The 'picinfo' tool:
+
+<img src="picinfo.png" alt="picinfo-screenshot"></img>
+
 How to get an ASCII image into the compiled binary file:
 1. Convert the picture with a tool like "jp2a" or "artem" to ASCII
 2. You can use my small helper tool "ascii2c" to convert ASCII to a .c file
