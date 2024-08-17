@@ -9,10 +9,11 @@
 #define MAX_ROWS 100
 #define MAX_COL 3000
 
-/*
-This little program counts the chars(plus escape sequences), -
-rows and the maximum of chars per row of the picture in 'ansi_pic'.
-It then stores the picture in a 2D array and prints it out on the right side of the information.*/
+/*This little program counts the chars(plus escape sequences), -
+ *rows and the maximum of chars per row of the picture in 'ansi_pic'.
+ *It then stores the picture in a 2D array and prints it out on the right side of the information.
+ *It counts the printable chars and prints them out as picture.
+ */
 
 int main(void)
 {
