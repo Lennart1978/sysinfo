@@ -17,10 +17,15 @@ It then stores the picture in a 2D array and prints it out on the right side of 
 int main(void)
 {
     size_t l = strlen(ansi_pic);
-    int maxcol = 0, row = 0, col = 0, count = 0, printable = 0, p = 0;
+    int maxcol = 0, row = 0, col = 0, count = 0;
     char c;
     char pic_array[MAX_ROWS][MAX_COL];
-    char only_printables[30000];
+    char *only_printables = malloc(l + 1);
+    if (!only_printables)
+    {
+        fprintf(stderr, "Can't allocate memory for 'only_printables'");
+        return 1;
+    }
 
     c = *ansi_pic++;
 
@@ -53,28 +58,36 @@ int main(void)
             printf("%c", pic_array[r][i]);
             fflush(stdout);
             usleep(50);
-            if (isprint(pic_array[r][i]) && pic_array[r][i] != '\n')
-            {
-                char t = pic_array[r][i];
-                if ((t >= 65 && t <= 90) || (t >= 97 && t <= 122) || t == ':' || t == ';' || t == '.' || t == ',' || t == '0' || t == 39)
-                {
-                    printable++;
-                    only_printables[p++] = t;
-                }
-            }
         }
-        only_printables[p++] = '\n';
         printf("\n");
-        printf("\033[5;0HPrintable chars: %d", printable);
         printf("\033[%d;85H", (r + 2));
     }
 
-    // Null-terminate the string
-    only_printables[p] = '\0';
-
     printf("\n");
 
-    // ...
+    int i = 0, j = 0;
+    while (i < l)
+    {
+        if (ansi_pic[i] == '\033')
+        {
+            i++;
+            while (i < l && ansi_pic[i] != 'm')
+            {
+                i++;
+            }
+            i++;
+        }
+        else
+        {
+            only_printables[j++] = ansi_pic[i++];
+        }
+    }
+
+    only_printables[j] = '\0';
+    size_t l2 = strlen(only_printables);
+    printf("\033[5;0H");
+    printf("\033[1;35mTotal printable chars: %d\n\033[0m", (int)l2);
+    printf("%s", only_printables);
 
     return 0;
 }
