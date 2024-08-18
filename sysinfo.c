@@ -89,7 +89,6 @@ char *get_system_info()
     char hostname[256] = "Unknown";
     char kernel[256] = "Unknown";
     char os[256] = "Unknown";
-    char desktop_env[256] = "Unknown";
     char CPU[256] = "Unknown";
     char local_IP[256] = "Unknown";
 
@@ -180,9 +179,11 @@ char *get_system_info()
                 if (start)
                 {
                     start++;
-                    while (*start == ' ' || *start == '\t') start++;
+                    while (*start == ' ' || *start == '\t')
+                        start++;
                     char *end = strchr(start, '\n');
-                    if (end) *end = '\0';
+                    if (end)
+                        *end = '\0';
                     snprintf(CPU, sizeof(CPU), "%s", start);
                 }
                 break;
