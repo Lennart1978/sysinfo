@@ -4,3 +4,8 @@ executable(
     ['main.c', 'sysinfo.c', 'center_text.c', 'selfie.c'],
     include_directories: include_directories('.'),
 )
+executable(
+    'picinfo',
+    ['picinfo.c', 'selfie.c'],
+    include_directories: include_directories('.'),
+)
