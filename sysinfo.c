@@ -50,12 +50,12 @@ void print_ansi_pic(const char *ansi_pic)
     }
 
     // Shuffle the shuffle array
-    shuffle(shuffle_array, row);    
+    shuffle(shuffle_array, row);
 
     int y, w, k;
     w = 0;
     k = 3;
-    
+
     // Clear the screen and jump to 1,1
     printf("\033[2J");
     printf("\033[H");
@@ -70,11 +70,17 @@ void print_ansi_pic(const char *ansi_pic)
     }
 }
 
+// Some inline Assembly experiments
 void swap(int *a, int *b)
 {
-    int temp = *a;
-    *a = *b;
-    *b = temp;
+    __asm__(
+        "movl (%0), %%eax;\n"
+        "movl (%1), %%ebx;\n"
+        "movl %%ebx, (%0);\n"
+        "movl %%eax, (%1);"
+        :
+        : "r"(a), "r"(b)
+        : "%eax", "%ebx");
 }
 
 // Fisher-Yates Shuffle Algorithm
