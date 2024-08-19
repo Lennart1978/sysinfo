@@ -23,6 +23,13 @@
 #define CYAN "\x1b[36m"
 #define BOLD "\x1b[1m"
 
+// Speed of the shuffle effect. The smaller the faster.
+#define SPEED 50000
+
+// This is enough for my personal picture.
+#define MAX_ROWS 100
+#define MAX_COL 3000
+
 enum Desktop
 {
     GNOME,
@@ -30,6 +37,10 @@ enum Desktop
     XFCE
 };
 
+void swap(int *a, int *b);
+void shuffle(int *array, int n);
+void replace_char(char *str, char oldChar, char newChar);
+void print_ansi_pic(const char *ansi_pic);
 char *get_de_version(enum Desktop de);
 char *get_system_info();
 char *get_uptime(long uptime_seconds);

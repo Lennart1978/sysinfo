@@ -10,12 +10,8 @@ int main()
 {
     struct sysinfo info;
 
-    // This is all to print the ASCII art
-    if (printf("%s", ansi_pic) < 0)
-    {
-        fprintf(stderr, "Failed to print ASCII art\n");
-        return 1;
-    }
+    // Print the colored ansi pic with shuffle effect
+    print_ansi_pic(ansi_pic);
 
     if (sysinfo(&info) != 0)
     {
@@ -70,6 +66,7 @@ int main()
         return 1;
     }
 
+    printf("\033[34;0H");
     if (printf("%s\n", centered_text) < 0)
     {
         fprintf(stderr, "Failed to print centered text\n");
