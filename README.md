@@ -3,9 +3,9 @@ My personal small system info CLI app written in C
 
 Build with meson:
 
-'''
+```bash
 mkdir builddir && meson setup builddir && cd builddir && meson compile
-'''
+```
 
 <img src="sysinfo.png" alt="screenshot"></img>
 
