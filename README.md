@@ -1,5 +1,9 @@
 # sysinfo
-My personal small system info CLI app written in C
+My personal small system info CLI app written in C.
+
+Included tools / gimmicks in this build: 'picinfo' and 'shuffle-ascii'.
+
+See the videos below.
 
 Build with meson:
 
