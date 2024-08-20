@@ -31,6 +31,7 @@ int main()
     char pic_array[MAXY][MAXX] = {{0}};
     char clean[(int)l];
     char c;
+    bool is_end = false;
 
     count = 0;
 
@@ -98,11 +99,16 @@ int main()
             usleep(SPEED);
             fflush(stdout);
         }
-        // Show the ASCII art for 2 seconds
-        sleep(2);
+        // Go to poisition 1, 1 - move the cursor out of the picture
+        printf("\033[1;1H");
+        fflush(stdout);
 
-        // Reset text mode
-        printf(RST);
+        // Show the ASCII art for 2 seconds at first glance
+        if (is_end == false)
+        {
+            sleep(2);
+            is_end = true;
+        }
 
         // Delete the 2D array
         for (int r = 0; r < MAXX; r++)
@@ -111,6 +117,9 @@ int main()
                 pic_array[q][r] = ' ';
         }
     }
+
+    // Reset text mode
+    printf(RST);
 
     // Delete screen and go to position 1, 1
     printf("\033[2J\033[1;1H");

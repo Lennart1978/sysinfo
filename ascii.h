@@ -3,6 +3,7 @@
 #include <time.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 // The lower the faster is the shuffle effect
 #define SPEED 2000
