@@ -7,6 +7,10 @@ The 'picinfo' tool:
 
 <img src="output.gif" alt="picinfo-screenshot"></img>
 
+The 'shuffle-ascii' gimmick:
+
+<img src="shuffle-ascii.gif" alt="Gif-is-loading..."></img>
+
 How to get an ASCII image into the compiled binary file:
 1. Convert the picture with a tool like "jp2a" or "artem" to ASCII
 2. You can use my small helper tool "ascii2c" to convert ASCII to a .c file

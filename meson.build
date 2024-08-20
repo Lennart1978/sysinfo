@@ -9,3 +9,9 @@ executable(
     ['picinfo.c', 'selfie.c'],
     include_directories: include_directories('.'),
 )
+executable(
+    'shuffle-ascii',
+    ['shuffle-ascii.c', 'ascii.c'],
+    include_directories: include_directories('.'),
+)
+
