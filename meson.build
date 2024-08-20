@@ -14,4 +14,9 @@ executable(
     ['shuffle-ascii.c', 'ascii.c'],
     include_directories: include_directories('.'),
 )
+executable(
+    'ascii2c',
+    ['ascii2c.c'],
+    include_directories: include_directories('.'),
+)
 

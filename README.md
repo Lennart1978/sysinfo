@@ -1,7 +1,7 @@
 # sysinfo
 My personal small system info CLI app written in C.
 
-Included tools / gimmicks in this build: 'picinfo', 'ascii2c' and 'shuffle-ascii'.
+Included tools / gimmicks in this build: 'sysinfo', 'picinfo', 'ascii2c' and 'shuffle-ascii'.
 
 See the videos below.
 
