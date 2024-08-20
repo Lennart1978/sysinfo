@@ -85,6 +85,9 @@ int main()
     // Set text mode: Yellow bold
     printf(YELLOW);
 
+    // Hide the cursor
+    printf(INVISIBLE);
+
     // Show and delete the picture with amazing shuffle effect
     for (int p = 0; p < 2; p++)
     {
@@ -99,10 +102,7 @@ int main()
             usleep(SPEED);
             fflush(stdout);
         }
-        // Go to poisition 1, 1 - move the cursor out of the picture
-        printf("\033[1;1H");
-        fflush(stdout);
-
+                
         // Show the ASCII art for 2 seconds at first glance
         if (is_end == false)
         {
@@ -123,6 +123,9 @@ int main()
 
     // Delete screen and go to position 1, 1
     printf("\033[2J\033[1;1H");
+
+    // Show the cursor again
+    printf(VISIBLE);
 
     return 0;
 }

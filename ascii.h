@@ -15,6 +15,12 @@
 // Yellow, bold text
 #define YELLOW "\033[1;3;33m"
 
+// Hide the cursor
+#define INVISIBLE "\033[?25l"
+
+// Show the cursor
+#define VISIBLE "\033[?25h"
+
 // Reset text mode
 #define RST "\033[0m"
 
