@@ -1,6 +1,12 @@
 # sysinfo
 My personal small system info CLI app written in C
 
+Build with meson:
+
+'''
+mkdir builddir && meson setup builddir && cd builddir && meson compile
+'''
+
 <img src="sysinfo.png" alt="screenshot"></img>
 
 The 'picinfo' tool:
