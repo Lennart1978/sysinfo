@@ -12,7 +12,7 @@
 #define MAXX 100
 #define MAXY 100
 
-// Width of the ASCII picture
+// The actual width of my ASCII picture
 #define WIDTH 80
 
 // Yellow, bold text
@@ -33,4 +33,18 @@
 // Reset text mode
 #define RST "\033[0m"
 
-extern const char* ansi_pic;
+// The definition of 'ansi_pic' is in file 'ascii.c'
+extern const char *ansi_pic;
+
+// Just a small assembly gimmick: It swaps a and b very fast.
+static inline void swap(int *a, int *b)
+{
+    __asm__(
+        "movl (%0), %%eax;\n"
+        "movl (%1), %%ebx;\n"
+        "movl %%ebx, (%0);\n"
+        "movl %%eax, (%1);"
+        :
+        : "r"(a), "r"(b)
+        : "%eax", "%ebx");
+}

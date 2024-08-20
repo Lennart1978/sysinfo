@@ -1,19 +1,6 @@
 #include "ascii.h"
 
-// Just a small assembly gimmick
-static inline void swap(int *a, int *b)
-{
-    __asm__(
-        "movl (%0), %%eax;\n"
-        "movl (%1), %%ebx;\n"
-        "movl %%ebx, (%0);\n"
-        "movl %%eax, (%1);"
-        :
-        : "r"(a), "r"(b)
-        : "%eax", "%ebx");
-}
-
-// The shuffle algorithm
+// The Fischer - Yates shuffle algorithm
 static void shuffle(int *array, int n)
 {
     srand(time(NULL));
@@ -86,7 +73,7 @@ int main()
         }
         pic_array[row][col++] = clean[i];
     }
-    // Free the allocated memory from 'get_clean_ascii' function 
+    // Free the allocated memory from 'get_clean_ascii' function
     free(clean);
 
     // Delete screen and go to position 1, 1
