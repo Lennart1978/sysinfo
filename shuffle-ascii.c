@@ -81,7 +81,7 @@ int main()
     // Shuffle all the numbers in the array
     shuffle(shuffle_array, total_pixels);
 
-    // Set text mode: Green bold
+    // Set text mode: Yellow bold
     printf(YELLOW);
 
     // Show and delete the picture with amazing shuffle effect
