@@ -12,6 +12,9 @@
 #define MAXX 100
 #define MAXY 100
 
+// Width of the ASCII picture
+#define WIDTH 80
+
 // Yellow, bold text
 #define YELLOW "\033[1;3;33m"
 
@@ -20,6 +23,12 @@
 
 // Show the cursor
 #define VISIBLE "\033[?25h"
+
+// Clear screen and jump to position 1,1
+#define CLRJ "\033[2J\033[1;1H"
+
+// Clear screen
+#define CLR "\033[2J"
 
 // Reset text mode
 #define RST "\033[0m"
