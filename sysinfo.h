@@ -37,7 +37,19 @@ enum Desktop
     XFCE
 };
 
-void swap(int *a, int *b);
+// Some inline Assembly experiments
+static inline void swap(int *a, int *b)
+{
+    __asm__(
+        "movl (%0), %%eax;\n"
+        "movl (%1), %%ebx;\n"
+        "movl %%ebx, (%0);\n"
+        "movl %%eax, (%1);"
+        :
+        : "r"(a), "r"(b)
+        : "%eax", "%ebx");
+}
+
 void shuffle(int *array, int n);
 void replace_char(char *str, char oldChar, char newChar);
 void print_ansi_pic(const char *ansi_pic);

@@ -70,19 +70,6 @@ void print_ansi_pic(const char *ansi_pic)
     }
 }
 
-// Some inline Assembly experiments
-void swap(int *a, int *b)
-{
-    __asm__(
-        "movl (%0), %%eax;\n"
-        "movl (%1), %%ebx;\n"
-        "movl %%ebx, (%0);\n"
-        "movl %%eax, (%1);"
-        :
-        : "r"(a), "r"(b)
-        : "%eax", "%ebx");
-}
-
 // Fisher-Yates Shuffle Algorithm
 void shuffle(int *array, int n)
 {
