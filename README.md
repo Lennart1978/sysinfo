@@ -8,7 +8,7 @@ See the videos below.
 Build with meson:
 
 ```bash
-mkdir builddir && meson setup builddir && cd builddir && meson compile
+mkdir builddir && meson setup builddir && meson compile -C builddir
 ```
 
 <img src="sysinfo.png" alt="screenshot"></img>
