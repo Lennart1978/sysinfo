@@ -113,12 +113,11 @@ int main()
         }
 
         // Show the ASCII art for 2 seconds at first glance
-        if (is_end == false)
-        {
-            sleep(2);
-            is_end = true;
-        }
-
+        !is_end ? (sleep(2), is_end = true) : (void)0;
+        
+        // Shuffle the array again for deletion effect
+        shuffle(shuffle_array, total_pixels);
+        
         // Delete the 2D array (Fill with blank spaces)
         for (int r = 0; r < MAXX; r++)
         {
