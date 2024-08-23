@@ -1,4 +1,8 @@
-project('sysinfo', 'c', version: '1.0.0', meson_version: '>= 0.60.0')
+project(
+    'sysinfo', 'c', version: '1.0.1', meson_version: '>= 0.60.0',
+    default_options : ['warning_level=3', 'buildtype=release']
+)
+
 executable(
     'sysinfo',
     ['main.c', 'sysinfo.c', 'center_text.c', 'selfie.c'],

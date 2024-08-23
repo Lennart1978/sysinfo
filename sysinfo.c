@@ -14,7 +14,7 @@ void print_ansi_pic(const char *ansi_pic)
     c = *ansi_pic++;
 
     // Store the ansi pic in a 2D array
-    while (c != '\0' && count < l)
+    while (c != '\0' && count < (int)l)
     {
         pic_array[row][col++] = c;
         count++;
@@ -236,7 +236,7 @@ char *get_system_info()
         else
             de_enum = -1;
 
-        if (de_enum != -1)
+        if ((int)de_enum != -1)
         {
             de_version = get_de_version(de_enum);
             if (de_version != NULL)

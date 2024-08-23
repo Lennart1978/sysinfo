@@ -66,7 +66,7 @@ int main(void)
     c = *ansi_pic++;
 
     // Store the ansi pic in a 2D array
-    while (c != '\0' && count < l)
+    while (c != '\0' && count < (int)l)
     {
         pic_array[row][col++] = c;
         count++;
@@ -133,12 +133,12 @@ int main(void)
     int i = 0, j = 0, countm = 0;
 
     // Count the printable chars
-    while (i < l)
+    while (i < (int)l)
     {
         if (ansi_pic[i] == '\033')
         {
             i++;
-            while (i < l && ansi_pic[i] != 'm')
+            while (i < (int)l && ansi_pic[i] != 'm')
             {
                 i++;
             }

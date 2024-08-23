@@ -40,7 +40,7 @@ static char *get_clean_ascii(const char *source)
         c = ansi_pic[position];
     }
 
-    clean[count + 1] = '\0'; // Null termination
+    clean[count] = '\0'; // Null termination
 
     // The caller of the function hast to free the allocated memory !
     return clean;
@@ -64,7 +64,7 @@ int main()
     col = 0;
 
     // count rows, columns and store clean picture in 2D array
-    for (int i = 0; i < strlen(clean); i++)
+    for (int i = 0; i < (int)strlen(clean); i++)
     {
         if (i % WIDTH == 0)
         {
@@ -113,7 +113,7 @@ int main()
         }
 
         // Show the ASCII art for 2 seconds at first glance
-        !is_end ? (sleep(2), is_end = true) : (void)0;
+        !is_end ? (sleep(2), is_end = true) : 0;
         
         // Shuffle the array again for deletion effect
         shuffle(shuffle_array, total_pixels);
@@ -122,7 +122,7 @@ int main()
         for (int r = 0; r < MAXX; r++)
         {
             for (int q = 0; q < MAXY; q++)
-                pic_array[q][r] = ' ';
+                pic_array[r][q] = ' ';
         }
     }
 
