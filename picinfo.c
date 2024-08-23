@@ -10,8 +10,11 @@
 #define MAX_ROWS 100
 #define MAX_COL 3000
 
-// The time to wait between the rows
-#define SPEED 80000
+// The lower the faster the shuffle effect
+#define SPEED 80000000L
+
+// For the function 'nanosleep'
+struct timespec req;
 
 /*This little program counts the chars(plus escape sequences), -
  *rows and the maximum of chars per row of the picture in 'ansi_pic'.
@@ -52,6 +55,8 @@ void replace_char(char *str, char oldChar, char newChar)
 int main(void)
 {
     srand(time(NULL));
+    req.tv_sec = 0;
+    req.tv_nsec = SPEED;
     size_t l = strlen(ansi_pic);
     int maxcol = 0, row = 0, col = 0, count = 0;
     char c;
@@ -123,7 +128,7 @@ int main(void)
             y = shuffle_array[r] + k;
             printf("\33[%d;%dH", y, w);
             printf("%s", ptr[y - k]);
-            usleep(SPEED);
+            nanosleep(&req, NULL);
             fflush(stdout);
         }
         w = 0;

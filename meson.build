@@ -1,5 +1,5 @@
 project(
-    'sysinfo', 'c', version: '1.0.1', meson_version: '>= 0.60.0',
+    'sysinfo', 'c', version: '1.0.2', meson_version: '>= 0.60.0',
     default_options : ['warning_level=3', 'buildtype=release']
 )
 

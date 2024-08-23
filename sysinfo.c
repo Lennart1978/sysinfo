@@ -6,6 +6,10 @@ char desktop_environment[100];
 
 void print_ansi_pic(const char *ansi_pic)
 {
+    // For the function 'nanosleep'
+    struct timespec req;
+    req.tv_sec = 0;
+    req.tv_nsec = SPEED;
     size_t l = strlen(ansi_pic);
     int maxcol = 0, row = 0, col = 0, count = 0;
     char c;
@@ -65,7 +69,7 @@ void print_ansi_pic(const char *ansi_pic)
         y = shuffle_array[r] + k;
         printf("\33[%d;%dH", y, w);
         printf("%s", ptr[y - k]);
-        usleep(SPEED);
+        nanosleep(&req, NULL);
         fflush(stdout);
     }
 }

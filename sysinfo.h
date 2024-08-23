@@ -9,6 +9,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <time.h>
 
 #define KB 1024
 #define MB (KB * KB)
@@ -23,12 +24,15 @@
 #define CYAN "\x1b[36m"
 #define BOLD "\x1b[1m"
 
-// Speed of the shuffle effect. The smaller the faster.
-#define SPEED 50000
-
 // This is enough for my personal picture.
 #define MAX_ROWS 100
 #define MAX_COL 3000
+
+/* The lower the faster the shuffle effect
+ * 2000 micro seconds = 2000000 nano seconds */
+#define SPEED 80000000L
+
+
 
 enum Desktop
 {
