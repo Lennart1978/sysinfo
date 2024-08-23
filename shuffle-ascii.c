@@ -14,6 +14,8 @@ static void shuffle(int *array, int n)
 // Remove all ansi escape sequences from ansi picture
 static char *get_clean_ascii(const char *source)
 {
+    req.tv_sec = 0;
+    req.tv_nsec = SPEED;
     int count = 0;
     size_t l = strlen(source);
     char c;
@@ -108,7 +110,7 @@ int main()
 
             printf("\033[%d;%dH", shuffled_row + 1, shuffled_col + 1);
             printf("%c", pic_array[shuffled_row][shuffled_col]);
-            usleep(SPEED);
+            nanosleep(&req, NULL);
             fflush(stdout);
         }
 

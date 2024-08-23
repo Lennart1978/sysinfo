@@ -5,8 +5,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-// The lower the faster is the shuffle effect
-#define SPEED 2000
+
 
 // Maximum picture size of 'ansi_pic' in 'ascii.c'
 #define MAXX 100
@@ -32,6 +31,13 @@
 
 // Reset text mode
 #define RST "\033[0m"
+
+/* The lower the faster the shuffle effect
+ * 2000 micro seconds = 2000000 nano seconds */
+#define SPEED 2000000L
+
+// For the function 'nanosleep'
+struct timespec req;
 
 // The definition of 'ansi_pic' is in file 'ascii.c'
 extern const char *ansi_pic;
