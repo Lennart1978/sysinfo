@@ -28,11 +28,8 @@
 #define MAX_ROWS 100
 #define MAX_COL 3000
 
-/* The lower the faster the shuffle effect
- * 2000 micro seconds = 2000000 nano seconds */
+// The lower the faster the shuffle effect
 #define SPEED 80000000L
-
-
 
 enum Desktop
 {

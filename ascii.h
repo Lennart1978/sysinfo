@@ -5,8 +5,6 @@
 #include <unistd.h>
 #include <stdbool.h>
 
-
-
 // Maximum picture size of 'ansi_pic' in 'ascii.c'
 #define MAXX 100
 #define MAXY 100
