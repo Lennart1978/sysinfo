@@ -1,6 +1,7 @@
 #include "sysinfo.h"
 #include "center_text.h"
 #include "selfie.h"
+#include "shuffle.h"
 #include <errno.h>
 #include <string.h>
 
@@ -43,7 +44,7 @@ int main()
         return 1;
     }
 
-    int result = snprintf(all_text, MAX_BUFFER_SIZE - 1, "%s" BOLD CYAN "Uptime" RESET ":%s\n" BOLD CYAN "Total RAM" RESET ":%.2f GB\n" BOLD CYAN "Free RAM" RESET ":%.2f GB\n" BOLD CYAN "Buffered RAM" RESET ":%.2f GB\n" BOLD CYAN "Shared RAM" RESET ":%.2f GB\n" BOLD CYAN "Total Swap" RESET ":%.2f GB\n" BOLD CYAN "Free Swap" RESET ":%.2f GB\n" BOLD CYAN "Number of processes:" RESET "%lu\n", system_text, uptime, (double)info.totalram / GB,
+    int result = snprintf(all_text, MAX_BUFFER_SIZE - 1, "%s Uptime: %s\nTotal RAM: %.2f GB\nFree RAM: %.2f GB\nBuffered RAM: %.2f GB\nShared RAM: %.2f GB\nTotal Swap: %.2f GB\nFree Swap: %.2f GB\nNumber of processes: %lu\n", system_text, uptime, (double)info.totalram / GB,
                           (double)(info.freeram + info.bufferram + info.sharedram) / GB, (double)info.bufferram / GB, (double)info.sharedram / GB,
                           (double)info.totalswap / GB, (double)info.freeswap / GB, (unsigned long)info.procs);
 
@@ -66,17 +67,9 @@ int main()
         return 1;
     }
 
-    printf("\033[34;0H");
-    if (printf("%s\n", centered_text) < 0)
-    {
-        fprintf(stderr, "Failed to print centered text\n");
-        free(centered_text);
-        free(all_text);
-        free(system_text);
-        free(uptime);
-        return 1;
-    }
-
+    printf("\033[1m\033[34;1H");
+    show_shuffled(centered_text, 100, "cyan", HELP);
+    printf("\033[0m\033[50;1H");
     // Don't forget to free the allocated memory !
     free(centered_text);
     free(all_text);

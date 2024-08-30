@@ -1,14 +1,14 @@
 project(
     'sysinfo',
     'c',
-    version: '1.0.2',
+    version: '1.0.3',
     meson_version: '>= 0.60.0',
     default_options: ['warning_level=3', 'buildtype=release'],
 )
 
 executable(
     'sysinfo',
-    ['main.c', 'sysinfo.c', 'center_text.c', 'selfie.c'],
+    ['main.c', 'sysinfo.c', 'center_text.c', 'selfie.c', 'shuffle.c'],
     include_directories: include_directories('.'),
 )
 executable(

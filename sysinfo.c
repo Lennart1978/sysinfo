@@ -307,7 +307,7 @@ char *get_system_info()
         perror("getifaddrs");
     }
 
-    snprintf(systeminfo, 4096, BOLD CYAN "Hostname:" RESET " %s\n" BOLD CYAN "Kernel:" RESET " %s\n" BOLD CYAN "OS:" RESET " %s\n" BOLD CYAN "Desktop Environment:" RESET " %s\n" BOLD CYAN "CPU:" RESET " %s\n" BOLD CYAN "Local IP:" RESET " %s\n",
+    snprintf(systeminfo, 4096, "Hostname: %s\nKernel: %s\nOS: %s\nDesktop Environment: %s\nCPU: %s\nLocal IP: %s\n",
              hostname, kernel, os, desktop_environment, CPU, local_IP);
 
     return systeminfo;
